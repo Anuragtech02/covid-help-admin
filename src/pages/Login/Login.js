@@ -6,7 +6,7 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import classNames from "classnames";
 import { AuthContext } from "../../utils/Auth";
-import Firebase from "../../utils/Firebase";
+import Firebase from "../../utils/firebase";
 
 const useStyles = makeStyles((theme) => ({
   root: {

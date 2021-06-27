@@ -8,7 +8,7 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormLabel from "@material-ui/core/FormLabel";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Button from "@material-ui/core/Button";
-import Firebase from "../../utils/Firebase";
+import Firebase from "../../utils/firebase";
 import QRCode from "qrcode.react";
 
 const Register = () => {
