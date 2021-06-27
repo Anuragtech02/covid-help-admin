@@ -1,0 +1,23 @@
+.registerContainer {
+  width: fit-content;
+  padding: 80px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+.registerContainer form {
+  display: grid;
+  grid-template-columns: repeat(2, 300px);
+}
+.registerContainer button {
+  width: fit-content;
+  margin: 5px;
+}
+.QRCodeContainer {
+  text-align: center;
+}
+.QRCodeContainer canvas {
+  padding: 20px 200px;
+}
+.QRCodeContainer img {
+  height: 200px;
+}

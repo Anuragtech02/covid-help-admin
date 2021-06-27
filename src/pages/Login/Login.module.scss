@@ -1,0 +1,17 @@
+.loginContainer {
+  width: 300px;
+  margin: auto;
+  margin-top: 15vh;
+  padding: 100px;
+}
+.loginContainer,
+.loginContainer form {
+  display: flex;
+  flex-direction: column;
+}
+.loginContainer button {
+  width: fit-content;
+  padding: 5px 20px;
+  border-radius: 0px;
+  margin: 10px;
+}

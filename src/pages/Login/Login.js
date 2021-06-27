@@ -1,56 +1,76 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
+import { Link, withRouter } from "react-router-dom";
 import styles from "./Login.module.scss";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import classNames from "classnames";
+import { AuthContext } from "../../utils/Auth";
+import Firebase from "../../utils/Firebase";
 
-const Login = () => {
+const useStyles = makeStyles((theme) => ({
+  root: {
+    "& > *": {
+      margin: theme.spacing(1),
+    },
+  },
+}));
+const Login = ({ history }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const useStyles = makeStyles((theme) => ({
-    root: {
-      "& > *": {
-        margin: theme.spacing(1),
-      },
-    },
-  }));
+  const { userDetails } = useContext(AuthContext);
+  async function onSubmit(e) {
+    e.preventDefault();
+    await Firebase.auth()
+      .signInWithEmailAndPassword(username, password)
+      .then(() => {
+        //setBtnDisabled(false);
+        history.push("/");
+      })
+      .catch((err) => {
+        alert(err);
+        //setBtnDisabled(false);
+      });
+  }
   const classes = useStyles();
-  useEffect(() => {
-    console.log(username, password);
-  });
+
   return (
     <div className={styles.loginContainer}>
-      <div className={styles.registerContainer}>
-        <form
-          className={classNames(classes.root, styles.loginForm)}
-          noValidate
-          autoComplete="off"
-        >
-          <TextField
-            id="username"
-            label="Username"
-            required
-            variant="outlined"
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          <TextField
-            required
-            id="password"
-            label="Password"
-            type="password"
-            variant="outlined"
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <Button variant="contained" color="primary">
-            Login
-          </Button>
-        </form>
-        <Link to="/">Want to register a Patient ? Click here</Link>
-      </div>
+      <form
+        className={classNames(classes.root, styles.loginForm)}
+        noValidate
+        autoComplete="off"
+      >
+        <TextField
+          id="username"
+          label="Username"
+          required
+          variant="outlined"
+          onChange={(e) => setUsername(e.target.value)}
+        />
+        <TextField
+          required
+          id="password"
+          label="Password"
+          type="password"
+          variant="outlined"
+          onChange={(e) => setPassword(e.target.value)}
+        />
+      </form>
+      <Button
+        type="submit"
+        onClick={onSubmit}
+        variant="contained"
+        color="primary"
+      >
+        Login
+      </Button>
+      <Link to="/">Want to register a Patient ? Click here</Link>
     </div>
   );
 };
 
-export default Login;
+export default withRouter(Login);
+
+// Email : admin@covidhelp.in
+// Password : admin123

@@ -7,31 +7,31 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [userDetails, setUserDetails] = useState({});
-
+  const [pending, setPending] = useState(true);
   let sessionUserDetails = sessionStorage.getItem("userDetails");
 
   useEffect(() => {
     const db = firebase.firestore();
-
     const fetchUser = async (email) => {
-      const userRef = db.collection("users").where("email", "==", email);
+      const userRef = db.collection("admins").where("email", "==", email);
       const snapshot = await userRef.get();
       const userData = snapshot.docs.map((doc) => ({
         ...doc.data(),
       }));
       setUserDetails(userData[0]);
-      sessionStorage.setItem("userDetails", JSON.stringify(userData[0]));
+      console.log(userData[0]);
+
+      setPending(false);
     };
     const checkUser = async () => {
       await firebase.auth().onAuthStateChanged((user) => {
         setCurrentUser(user);
-        if (!sessionStorage.getItem("userDetails")) {
-          if (user) fetchUser(user.email);
-        }
+        if (user) fetchUser(user.email);
+        else setPending(false);
       });
     };
     checkUser();
-  }, [currentUser, sessionUserDetails]);
+  }, [currentUser]);
 
   // if (pending) {
   //   return (
@@ -46,6 +46,7 @@ export const AuthProvider = ({ children }) => {
       value={{
         currentUser,
         userDetails,
+        pending,
       }}
     >
       {children}
