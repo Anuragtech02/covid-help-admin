@@ -10,7 +10,7 @@ const App = () => {
   return (
     <AuthProvider>
       <div className={styles.container}>
-        <Router>
+        <Router basename="/covid-help-admin">
           <Switch>
             <PrivateRoute path="/" exact component={Register} />
             <Route path="/login" exact component={Login} />
